@@ -117,13 +117,25 @@ def pick_format(log):
     return random.choice([f for f in candidates if counts[f[0]] == fewest])
 
 
-def pick_image(log):
+def pick_image(log, topic_id, topic_ids):
+    """The card made for this topic, or a generic image, or nothing.
+
+    A card named after a topic is reserved for that topic: pairing the I-864
+    card with a post about encryption is worse than posting no image at all.
+    Anything else in images/ (screenshots, diagrams) is generic and rotates.
+    """
     if not IMAGES_DIR.is_dir():
         return None
     images = sorted(p for p in IMAGES_DIR.iterdir() if p.suffix.lower() in IMAGE_EXTS)
-    if not images:
+
+    for path in images:
+        if path.stem == topic_id:
+            return path
+
+    generic = [p for p in images if p.stem not in topic_ids]
+    if not generic:
         return None
-    return images[log.get("image_cursor", 0) % len(images)]
+    return generic[log.get("image_cursor", 0) % len(generic)]
 
 
 # -------------------------------------------------------------- generation
@@ -406,7 +418,8 @@ def main():
         build_prompt(brief, topic, fmt_name, fmt_hint, recent), gemini_key, model
     )
 
-    image = None if args.no_image else pick_image(log)
+    topic_ids = {t["id"] for t in topics}
+    image = None if args.no_image else pick_image(log, topic["id"], topic_ids)
     print(f"image:  {image.name if image else 'none'}")
     print(f"\n--- {weighted_len(text)} chars as X counts them ---\n{text}\n{'-' * 32}\n")
 
@@ -439,7 +452,9 @@ def main():
             "tweet_id": tweet_id,
         }
     )
-    if image:
+    # Only generic images rotate. Topic cards are addressed by name, so
+    # advancing the cursor for them would skip screenshots at random.
+    if image and image.stem not in topic_ids:
         log["image_cursor"] += 1
     save_log(log)
     print(f"logged, {len(log['posts'])} posts total")

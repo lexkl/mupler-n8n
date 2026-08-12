@@ -20,6 +20,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 CARDS_PATH = ROOT / "content" / "cards.json"
+TOPICS_PATH = ROOT / "content" / "topics.json"
 OUT_DIR = ROOT / "images"
 
 W, H = 1600, 900
@@ -155,14 +156,40 @@ def render(card, index, bold_path, medium_path):
     draw.rectangle([W - MARGIN - 160, H - MARGIN - 26, W - MARGIN, H - MARGIN - 18],
                    fill=theme["rule"])
 
-    name = f"{index + 1:02d}-{slugify(card['kicker'])}.png"
-    path = OUT_DIR / name
+    # Filename is the topic id: that is how post.py pairs a card with the post
+    # it belongs to. Renaming these breaks the pairing.
+    path = OUT_DIR / f"{card['id']}.png"
     img.save(path, "PNG", optimize=True)
     return path, len(lines), font.size
 
 
+def check_ids(cards):
+    """Every card must name a real topic, and every topic wants a card."""
+    topics = json.loads(TOPICS_PATH.read_text(encoding="utf-8"))
+    topic_ids = {t["id"] for t in topics}
+    card_ids = [c["id"] for c in cards]
+
+    duplicates = {i for i in card_ids if card_ids.count(i) > 1}
+    if duplicates:
+        sys.exit(f"duplicate card ids: {', '.join(sorted(duplicates))}")
+
+    unknown = sorted(set(card_ids) - topic_ids)
+    if unknown:
+        sys.exit(
+            f"cards reference ids that are not in topics.json: {', '.join(unknown)}"
+        )
+
+    missing = sorted(topic_ids - set(card_ids))
+    if missing:
+        print(f"note: {len(missing)} topics have no card, those posts go out as text:")
+        for topic_id in missing:
+            print(f"  {topic_id}")
+        print()
+
+
 def main():
     cards = json.loads(CARDS_PATH.read_text(encoding="utf-8"))
+    check_ids(cards)
     OUT_DIR.mkdir(exist_ok=True)
 
     bold_path = find_font("bold")

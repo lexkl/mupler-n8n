@@ -12,7 +12,8 @@ result is appended to `log.json` so the next post does not repeat itself.
 scripts/post.py              the whole thing
 content/brief.json           product facts, pains, tone of voice
 content/topics.json          24 topics, cycled least-recently-used
-images/                      your images, rotated one per post
+content/cards.json           the line printed on each topic's image
+images/                      one card per topic, matched by filename
 log.json                     every post published, feeds the anti-repeat prompt
 ```
 
@@ -69,8 +70,9 @@ eventually and have to click re-enable.
 
 ### 4. Images
 
-Drop 10–15 files into `images/` — see [images/README.md](images/README.md) for
-what works. Posts go out without media if the folder is empty.
+Already done: all 24 topics have a card in `images/`, matched to the post by
+filename. See [images/README.md](images/README.md) to change the lines or add
+screenshots.
 
 ### 5. Test before going live
 

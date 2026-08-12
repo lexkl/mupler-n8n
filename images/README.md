@@ -1,15 +1,28 @@
 # Images
 
-The posting script sorts this folder by filename and rotates through it, one
-image per post. If the folder is empty, posts still go out, just without media.
-
 Supported: `.png` `.jpg` `.jpeg` `.webp` `.gif`. Keep each file under 5 MB.
+
+## How an image gets chosen
+
+**Filename decides.** A file named after a topic id from
+[`../content/topics.json`](../content/topics.json) — `i864-stall.png` — is that
+topic's card, and is used only on posts about it. Any other filename is generic
+and rotates in order across topics that have no card of their own.
+
+So a post about the Affidavit of Support cannot end up carrying the encryption
+card. If a topic has no card and there are no generic images, the post goes out
+as text rather than with something unrelated.
+
+Rename a card and you break its pairing. Drop in `screenshot-client-form.png`
+and it joins the generic rotation.
 
 ## The generated cards
 
-The 12 PNGs here are built from [`../content/cards.json`](../content/cards.json)
-by [`../scripts/make_images.py`](../scripts/make_images.py). To change the lines,
-add cards, or restyle:
+All 24 topics have a card, built from
+[`../content/cards.json`](../content/cards.json) by
+[`../scripts/make_images.py`](../scripts/make_images.py). Card `id` must match a
+topic `id`; the generator refuses to run otherwise and lists any topic left
+without a card. To change the lines, add cards, or restyle:
 
 ```bash
 pip install -r requirements-images.txt
@@ -38,6 +51,9 @@ Text cards are the reliable floor, not the ceiling. These do better:
 - Before/after: a page of raw USCIS PDF beside the Mupler version of the same
   question.
 - Simple flow diagrams: client link, filled form, exported PDF.
+
+Name those after a topic id to pin them to that topic, or give them any other
+name to put them in the generic rotation.
 
 Avoid stock photos of handshakes and gavels, and avoid AI-generated art. This
 audience reads it as a signal that nobody was home.
