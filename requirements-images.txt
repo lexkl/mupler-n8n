@@ -1,0 +1,3 @@
+# Only needed to regenerate images/ locally. The Actions workflow does not
+# install this: it just reads whatever PNGs are committed.
+pillow>=10.0
