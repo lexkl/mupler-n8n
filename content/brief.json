@@ -1,0 +1,65 @@
+{
+  "product": {
+    "name": "Mupler",
+    "url": "https://mupler.com/",
+    "one_liner": "Your clients fill the data, we fill the USCIS forms.",
+    "positioning": "Client intake automation built exclusively for U.S. immigration attorneys. Replaces confusing USCIS PDFs with simple branded web forms, then generates ready-to-file PDFs automatically.",
+    "audience": "Solo immigration attorneys and small-to-mid-size immigration firms in the United States.",
+    "trial": "Free 2-week trial, no credit card required."
+  },
+  "pains": [
+    "A single I-130 case takes dozens of back-and-forth emails just to finish basic intake.",
+    "Clients open a raw USCIS PDF, get confused, and either stall or return it half-filled.",
+    "Form I-864 (Affidavit of Support) is where family-based cases quietly stall for weeks.",
+    "Form I-130A produces some of the most error-prone client answers: address history, employment history.",
+    "Paralegal hours disappear into chasing missing fields instead of billable work.",
+    "Retyping the same client data into multiple forms invites typos that cost a filing.",
+    "Clients judge a firm's professionalism from the very first intake link they receive.",
+    "Every new client means re-sending the same forms from scratch.",
+    "Client portals that require signup add friction and get abandoned.",
+    "Immigration attorneys handle extremely sensitive personal data and carry ABA, CCPA and GLBA obligations."
+  ],
+  "features": [
+    "USCIS-based forms library, updated within 5 days of a USCIS release.",
+    "Client-friendly web forms with plain-language hints instead of PDF jargon.",
+    "No client login or signup: a secure link opens straight in the browser.",
+    "Autosave, validation and conditional logic so clients cannot submit garbage.",
+    "One-click export to print-ready, correctly formatted PDFs plus supporting documents.",
+    "Your branding on the form: color themes, fonts, and white-label on higher tiers.",
+    "Client progress tracking so you know who is stuck and where.",
+    "Works on desktop, tablet and mobile, any modern browser.",
+    "Custom form building on request.",
+    "End-to-end encryption, U.S.-based servers, U.S. privacy law compliance."
+  ],
+  "proof_points": [
+    "Free 2-week trial, no credit card.",
+    "Plans from $29/mo (Essential) to $89/mo (Pro).",
+    "Forms library updated within 5 days of USCIS releases.",
+    "Built for immigration law only, not a generic form builder."
+  ],
+  "voice": {
+    "tone": "Direct, practical, peer-to-peer. You are talking to a busy attorney, not running an ad.",
+    "do": [
+      "Lead with a concrete, recognizable moment from immigration practice.",
+      "Use specific form numbers (I-130, I-130A, I-864) when relevant.",
+      "Sound like a practitioner who has felt the problem.",
+      "Keep sentences short."
+    ],
+    "dont": [
+      "No hype words: revolutionary, game-changer, seamless, unlock, supercharge, effortless.",
+      "No em dashes.",
+      "No emoji.",
+      "No more than one hashtag, and only if it genuinely fits.",
+      "Never give legal advice or make claims about USCIS processing outcomes.",
+      "Do not promise approval rates, speed of adjudication, or anything USCIS controls.",
+      "No ALL CAPS, no clickbait teasers like 'you won't believe'."
+    ]
+  },
+  "cta_variants": [
+    "Free 2-week trial at mupler.com",
+    "See it at mupler.com",
+    "mupler.com, free trial, no card",
+    "Try the live demo at mupler.com",
+    ""
+  ]
+}
