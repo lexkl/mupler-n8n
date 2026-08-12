@@ -415,7 +415,17 @@ def main():
         return
 
     auth = x_auth()
-    media_id = upload_media(image, auth) if image else None
+
+    media_id = None
+    if image:
+        try:
+            media_id = upload_media(image, auth)
+        except RuntimeError as exc:
+            # Free-tier access to the media endpoints is the flakiest part of
+            # this pipeline. A post without a picture beats no post at all.
+            print(f"  {exc}\n  posting without media")
+            image = None
+
     tweet_id = create_tweet(text, media_id, auth)
     print(f"published: https://x.com/i/web/status/{tweet_id}")
 
