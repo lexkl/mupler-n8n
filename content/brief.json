@@ -52,7 +52,10 @@
       "No more than one hashtag, and only if it genuinely fits.",
       "Never give legal advice or make claims about USCIS processing outcomes.",
       "Do not promise approval rates, speed of adjudication, or anything USCIS controls.",
-      "No ALL CAPS, no clickbait teasers like 'you won't believe'."
+      "Never imply that using Mupler satisfies, covers or discharges an attorney's own ethical, bar or confidentiality duties. Those stay with the attorney. Mupler is built to support them, nothing stronger.",
+      "Do not describe the product as compliant on the attorney's behalf. You may say the platform itself is built around ABA, CCPA and GLBA requirements.",
+      "No ALL CAPS, no clickbait teasers like 'you won't believe'.",
+      "Avoid stacking four short declarative sentences in a row. Vary sentence length or the post reads like it was assembled by a machine."
     ]
   },
   "cta_variants": [
