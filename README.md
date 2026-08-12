@@ -145,3 +145,8 @@ worth reading in full.
 **Post is too long or too short** — the script retries four times, then trims at
 a word boundary. Persistent trimming means the length rules in the prompt need
 tightening.
+
+Lengths everywhere are counted the way X counts them: every link, including a
+bare `mupler.com`, is billed at 23 characters no matter how short it looks. The
+dry-run output prints the weighted number, so it will read higher than the
+character count of the text you see.

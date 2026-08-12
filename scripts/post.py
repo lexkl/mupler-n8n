@@ -49,7 +49,28 @@ FORMATS = [
     ("observation", "A short opinionated take on how immigration intake actually works in small firms."),
 ]
 
-MIN_LEN, MAX_LEN, HARD_LIMIT = 150, 275, 280
+MIN_LEN, MAX_LEN, HARD_LIMIT = 150, 270, 280
+
+# X shortens every link through t.co and bills it at a flat 23 characters,
+# whatever the visible URL is. A bare domain like mupler.com is autolinked too,
+# so raw len() understates a post by 13 characters every time we add the CTA.
+URL_RE = re.compile(
+    r"https?://\S+"
+    r"|\b(?:[\w-]+\.)+(?:com|org|net|io|co|ai|app|dev|law|us)\b(?:/\S*)?",
+    re.I,
+)
+URL_WEIGHT = 23
+
+
+def weighted_len(text):
+    """Length as X counts it, not as Python counts it."""
+    return len(URL_RE.sub("#" * URL_WEIGHT, text))
+
+
+def trim_to_limit(text, limit=HARD_LIMIT):
+    while weighted_len(text) > limit and " " in text:
+        text = text.rsplit(" ", 1)[0].rstrip(" ,.;:")
+    return text
 
 
 # --------------------------------------------------------------------------- io
@@ -150,7 +171,8 @@ ALREADY POSTED, DO NOT REPEAT THESE OPENINGS, PHRASINGS OR ANGLES
 {recent_block}
 
 RULES
-- Between {MIN_LEN} and {MAX_LEN} characters total, including any link. Hard maximum {HARD_LIMIT}.
+- Between {MIN_LEN} and {MAX_LEN} characters total. Count any link, even a bare
+  domain like mupler.com, as 23 characters, because that is how X bills it.
 - Plain text only. No markdown, no quotation marks around the post, no preamble.
 - Line breaks are allowed and encouraged for readability.
 - {"End with this call to action, verbatim: " + cta if cta else "Do not include a call to action or a link in this one."}
@@ -267,14 +289,14 @@ def generate_with_retry(prompt, api_key, model, attempts=4):
 
     last = text
     for i in range(attempts):
-        if MIN_LEN <= len(last) <= HARD_LIMIT:
+        if MIN_LEN <= weighted_len(last) <= HARD_LIMIT:
             return last
-        print(f"  attempt {i + 1}: {len(last)} chars, out of range, retrying")
+        print(f"  attempt {i + 1}: {weighted_len(last)} weighted chars, out of range, retrying")
         last = generate(prompt, api_key, model)
 
-    if len(last) > HARD_LIMIT:
-        trimmed = last[:HARD_LIMIT].rsplit(" ", 1)[0].rstrip(" ,.;:")
-        print(f"  trimming {len(last)} -> {len(trimmed)} chars")
+    if weighted_len(last) > HARD_LIMIT:
+        trimmed = trim_to_limit(last)
+        print(f"  trimming {weighted_len(last)} -> {weighted_len(trimmed)} weighted chars")
         return trimmed
     raise RuntimeError(f"could not produce a usable post after {attempts} attempts")
 
@@ -386,7 +408,7 @@ def main():
 
     image = None if args.no_image else pick_image(log)
     print(f"image:  {image.name if image else 'none'}")
-    print(f"\n--- {len(text)} chars ---\n{text}\n---------------------\n")
+    print(f"\n--- {weighted_len(text)} chars as X counts them ---\n{text}\n{'-' * 32}\n")
 
     if args.dry_run:
         print("dry run, nothing published, log untouched")
