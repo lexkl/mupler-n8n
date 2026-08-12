@@ -6,11 +6,13 @@ Run modes:
     python scripts/post.py --no-image    publish text only
     python scripts/post.py               full run: generate, upload image, post, log
 
+    python scripts/post.py --list-models   show what this API key can use
+
 Required environment variables:
     GEMINI_API_KEY
     X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET
 Optional:
-    GEMINI_MODEL   (default: gemini-2.5-flash)
+    GEMINI_MODEL   (default: gemini-3.6-flash; on 404 a live model is picked)
 """
 
 import argparse
@@ -170,42 +172,106 @@ def clean(text):
     return text.strip()
 
 
+GEMINI_ROOT = "https://generativelanguage.googleapis.com/v1beta"
+
+# Never pick these for prose: wrong modality, or retired families.
+MODEL_BLOCKLIST = ("embedding", "aqa", "image", "imagen", "tts", "veo", "live", "vision")
+
+
+class ModelUnavailable(RuntimeError):
+    """The requested model is gone or not offered to this account."""
+
+
+def list_models(api_key):
+    resp = requests.get(
+        f"{GEMINI_ROOT}/models",
+        headers={"x-goog-api-key": api_key},
+        params={"pageSize": 200},
+        timeout=60,
+    )
+    if not resp.ok:
+        raise RuntimeError(f"Gemini list models {resp.status_code}: {resp.text[:300]}")
+    return [
+        m["name"].split("/", 1)[-1]
+        for m in resp.json().get("models", [])
+        if "generateContent" in m.get("supportedGenerationMethods", [])
+    ]
+
+
+def rank_model(name):
+    """Sort key: newest stable non-lite flash first."""
+    match = re.search(r"gemini-(\d+(?:\.\d+)?)", name)
+    version = float(match.group(1)) if match else 0.0
+    return (
+        "flash" in name,                                    # flash over pro: cheaper, plenty here
+        not any(tag in name for tag in ("preview", "exp")),  # stable over preview
+        version,
+        "lite" not in name,
+    )
+
+
+def choose_model(api_key):
+    usable = [
+        n for n in list_models(api_key)
+        if not any(bad in n for bad in MODEL_BLOCKLIST)
+    ]
+    if not usable:
+        raise RuntimeError("no text-generation model available on this API key")
+    return max(usable, key=rank_model)
+
+
 def generate(prompt, api_key, model):
     resp = requests.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+        f"{GEMINI_ROOT}/models/{model}:generateContent",
         headers={"x-goog-api-key": api_key, "Content-Type": "application/json"},
         json={
             "contents": [{"parts": [{"text": prompt}]}],
+            # No thinkingConfig: its shape differs across model families and a
+            # wrong key is a hard 400. The budget below is generous enough that
+            # a reasoning model can think and still emit a 280-character post.
             "generationConfig": {
                 "temperature": 1.1,
                 "topP": 0.95,
-                "maxOutputTokens": 1024,
-                # Without this, 2.5 models spend the token budget on reasoning
-                # and can return an empty candidate.
-                "thinkingConfig": {"thinkingBudget": 0},
+                "maxOutputTokens": 4096,
             },
         },
-        timeout=90,
+        timeout=120,
     )
+    if resp.status_code == 404:
+        raise ModelUnavailable(f"{model}: {resp.text[:300]}")
     if not resp.ok:
         raise RuntimeError(f"Gemini {resp.status_code}: {resp.text[:500]}")
 
     data = resp.json()
-    try:
-        parts = data["candidates"][0]["content"]["parts"]
-    except (KeyError, IndexError):
-        raise RuntimeError(f"Gemini returned no usable candidate: {json.dumps(data)[:500]}")
-    return clean("".join(part.get("text", "") for part in parts))
+    candidates = data.get("candidates") or []
+    if not candidates:
+        raise RuntimeError(f"Gemini returned no candidate: {json.dumps(data)[:400]}")
+
+    parts = candidates[0].get("content", {}).get("parts") or []
+    text = clean("".join(p.get("text", "") for p in parts if "text" in p))
+    if not text:
+        reason = candidates[0].get("finishReason", "unknown")
+        raise RuntimeError(f"Gemini returned empty text, finishReason={reason}")
+    return text
 
 
 def generate_with_retry(prompt, api_key, model, attempts=4):
-    last = ""
-    for i in range(attempts):
+    """Generate within the length window, resolving the model if it has moved."""
+    try:
         text = generate(prompt, api_key, model)
-        last = text
-        if MIN_LEN <= len(text) <= HARD_LIMIT:
-            return text
-        print(f"  attempt {i + 1}: {len(text)} chars, out of range, retrying")
+    except ModelUnavailable as exc:
+        print(f"  model unavailable ({exc.args[0].splitlines()[0]})")
+        model = choose_model(api_key)
+        print(f"  falling back to {model}. Pin it via the GEMINI_MODEL secret.")
+        text = generate(prompt, api_key, model)
+
+    last = text
+    for i in range(attempts):
+        if MIN_LEN <= len(last) <= HARD_LIMIT:
+            return last
+        print(f"  attempt {i + 1}: {len(last)} chars, out of range, retrying")
+        last = generate(prompt, api_key, model)
+
     if len(last) > HARD_LIMIT:
         trimmed = last[:HARD_LIMIT].rsplit(" ", 1)[0].rstrip(" ,.;:")
         print(f"  trimming {len(last)} -> {len(trimmed)} chars")
@@ -283,7 +349,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true", help="generate only, publish nothing")
     ap.add_argument("--no-image", action="store_true", help="publish without an image")
+    ap.add_argument(
+        "--list-models", action="store_true", help="print available Gemini models and exit"
+    )
     args = ap.parse_args()
+
+    if args.list_models:
+        key = os.environ.get("GEMINI_API_KEY") or sys.exit("missing GEMINI_API_KEY")
+        names = sorted(list_models(key))
+        print("\n".join(names))
+        print(f"\n{len(names)} models, auto-pick would use: {choose_model(key)}")
+        return
 
     brief = load_json(BRIEF_PATH)
     topics = load_json(TOPICS_PATH)
@@ -294,7 +370,8 @@ def main():
     gemini_key = os.environ.get("GEMINI_API_KEY")
     if not gemini_key:
         sys.exit("missing GEMINI_API_KEY")
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    # `or` not a default arg: an unset Actions variable arrives as an empty string.
+    model = os.environ.get("GEMINI_MODEL") or "gemini-3.6-flash"
 
     topic = pick_topic(topics, log)
     fmt_name, fmt_hint = pick_format(log)

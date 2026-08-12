@@ -93,6 +93,8 @@ python scripts/post.py --dry-run
 
 `--dry-run` generates and prints without publishing or writing the log.
 `--no-image` publishes text only.
+`--list-models` prints the Gemini models this key can use, and which one the
+auto-picker would choose.
 
 ---
 
@@ -124,8 +126,21 @@ endpoints has changed more than once. The script tries v2 then v1.1 and prints
 both errors. If both refuse, run with `--no-image` until it is sorted; text
 posts are unaffected.
 
-**Empty response from Gemini** — usually a safety block or a model name that no
-longer exists. Set the `GEMINI_MODEL` env var to a current model.
+**404 from Gemini, "no longer available to new users"** — Google retires models
+on its own schedule. The script catches this, lists what your key can actually
+use, picks the newest stable flash model and carries on, printing which one it
+chose. Nothing to do unless you want to pin it: add a repository *variable*
+(not a secret) named `GEMINI_MODEL`.
+
+To see the list yourself:
+
+```bash
+GEMINI_API_KEY=... python scripts/post.py --list-models
+```
+
+**Empty response from Gemini** — usually a safety filter. The error prints
+`finishReason`; `SAFETY` means the prompt tripped a filter, anything else is
+worth reading in full.
 
 **Post is too long or too short** — the script retries four times, then trims at
 a word boundary. Persistent trimming means the length rules in the prompt need

@@ -44,6 +44,9 @@ jobs:
       - name: Generate and publish
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Optional repository variable. Leave unset to use the script default
+          # and let it fall back automatically when a model is retired.
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
