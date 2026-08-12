@@ -105,7 +105,7 @@ def pick_topic(topics, log):
     return min(topics, key=lambda t: used_at[t["id"]])
 
 
-def pick_format(log):
+def pick_format(log, topic_id=None):
     counts = {name: 0 for name, _ in FORMATS}
     for entry in log["posts"][-len(FORMATS) :]:
         if entry.get("format") in counts:
@@ -113,6 +113,14 @@ def pick_format(log):
 
     previous = log["posts"][-1].get("format") if log["posts"] else None
     candidates = [f for f in FORMATS if f[0] != previous] or list(FORMATS)
+
+    # A repeat topic in a new shape reads as a new thought. The same topic in
+    # the same shape reads as a rerun, however the wording differs.
+    used_here = {
+        e.get("format") for e in log["posts"] if e.get("topic") == topic_id
+    }
+    candidates = [f for f in candidates if f[0] not in used_here] or candidates
+
     fewest = min(counts[f[0]] for f in candidates)
     return random.choice([f for f in candidates if counts[f[0]] == fewest])
 
@@ -141,7 +149,7 @@ def pick_image(log, topic_id, topic_ids):
 # -------------------------------------------------------------- generation
 
 
-def build_prompt(brief, topic, fmt_name, fmt_hint, recent_texts):
+def build_prompt(brief, topic, fmt_name, fmt_hint, recent_texts, prior_on_topic):
     p = brief["product"]
     voice = brief["voice"]
     cta = random.choice(brief["cta_variants"])
@@ -151,6 +159,25 @@ def build_prompt(brief, topic, fmt_name, fmt_hint, recent_texts):
         if recent_texts
         else "(none yet, this is the first post)"
     )
+
+    # The topic list cycles every 24 posts but the recent window is 10, so
+    # without this the model cannot see its own last take on this exact topic
+    # and drifts back to the same opening.
+    if prior_on_topic:
+        history = "\n\n".join(
+            f"[{e['date']}, format: {e.get('format', 'unknown')}]\n{e['text']}"
+            for e in prior_on_topic
+        )
+        history_block = f"""
+YOUR OWN EARLIER POSTS ON THIS EXACT TOPIC
+These already went out. Say something genuinely different: a different opening,
+a different example, a different part of the problem. Repeating the angle below
+in new words is a failure, not a success.
+
+{history}
+"""
+    else:
+        history_block = ""
 
     return f"""You write posts on X for {p['name']} ({p['url']}).
 
@@ -181,7 +208,7 @@ Do not: {' '.join(voice['dont'])}
 
 ALREADY POSTED, DO NOT REPEAT THESE OPENINGS, PHRASINGS OR ANGLES
 {recent_block}
-
+{history_block}
 RULES
 - Between {MIN_LEN} and {MAX_LEN} characters total. Count any link, even a bare
   domain like mupler.com, as 23 characters, because that is how X bills it.
@@ -408,14 +435,21 @@ def main():
     model = os.environ.get("GEMINI_MODEL") or "gemini-3.6-flash"
 
     topic = pick_topic(topics, log)
-    fmt_name, fmt_hint = pick_format(log)
+    fmt_name, fmt_hint = pick_format(log, topic["id"])
     recent = [entry["text"] for entry in log["posts"][-10:]]
+    # Last four takes on this topic, whenever they were. Four is plenty of
+    # signal without crowding the prompt.
+    prior_on_topic = [e for e in log["posts"] if e.get("topic") == topic["id"]][-4:]
 
     print(f"topic:  {topic['id']}")
     print(f"format: {fmt_name}")
+    if prior_on_topic:
+        print(f"        {len(prior_on_topic)} earlier post(s) on this topic, fed to the model")
 
     text = generate_with_retry(
-        build_prompt(brief, topic, fmt_name, fmt_hint, recent), gemini_key, model
+        build_prompt(brief, topic, fmt_name, fmt_hint, recent, prior_on_topic),
+        gemini_key,
+        model,
     )
 
     topic_ids = {t["id"] for t in topics}

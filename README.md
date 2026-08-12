@@ -111,7 +111,18 @@ used one, so all 24 cycle before anything repeats — roughly six months at thre
 posts a week. Add topics whenever you publish a new blog post.
 
 **Post shapes** (question, mini story, contrast, ...) are the `FORMATS` list in
-`scripts/post.py`, balanced so no shape runs twice in a row.
+`scripts/post.py`, balanced so no shape runs twice in a row, and so a topic
+coming round again gets a shape it has not worn before.
+
+**Repetition.** Topics cycle every 24 posts, about eight weeks at this cadence,
+and the same card image comes back with them. Text should not: the prompt
+carries both the last ten posts and up to four earlier posts *on this same
+topic*, with instructions to differ from them. Without that second list the
+model cannot see its own previous take, since it fell out of the recent window
+fourteen posts ago.
+
+The strongest fix is more topics. Every new blog post is one: add it to
+`topics.json`, add a card with the same `id` to `cards.json`, regenerate.
 
 **Schedule** is the cron line in `.github/workflows/post.yml`. Note that
 scheduled runs on GitHub can be delayed 5–30 minutes under load.
