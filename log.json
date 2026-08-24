@@ -24,6 +24,14 @@
       "image": "billable-hours.png",
       "text": "Chasing missing I-864 income details or I-130A address gaps burns unbillable hours. This week, try requiring a completed 5-year history checklist before drafting anything. Or let web intake handle validation.\n\nmupler.com, free trial, no card",
       "tweet_id": "2090814715316355574"
+    },
+    {
+      "date": "2026-08-24 14:59 UTC",
+      "topic": "encryption",
+      "format": "fact",
+      "image": "encryption.png",
+      "text": "Standard email intake transmits SSNs and A-numbers over unencrypted channels. An intercepted PDF leaves sensitive immigration data exposed to regulatory and privacy risks. Mupler uses end-to-end encryption on U.S. servers.\n\nFree 2-week trial at mupler.com",
+      "tweet_id": "2091903247711703539"
     }
   ]
 }
