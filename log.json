@@ -40,6 +40,14 @@
       "image": "no-login.png",
       "text": "When intake links open directly in the browser without passwords, clients actually finish their I-130 forms. You get clean data back on the first try instead of playing tech support for a portal login.\n\nFree 2-week trial at mupler.com",
       "tweet_id": "2092642006506107109"
+    },
+    {
+      "date": "2026-08-28 23:33 UTC",
+      "topic": "intake-to-filing",
+      "format": "question",
+      "image": "intake-to-filing.png",
+      "text": "Ever open a completed intake only to find missing I-130A address history?\n\nClient answers should convert to a ready-to-file PDF in one click, without retyping data into USCIS forms.\n\nFree 2-week trial at mupler.com",
+      "tweet_id": "2093482061831016503"
     }
   ]
 }
