@@ -56,6 +56,14 @@
       "image": "first-impression.png",
       "text": "Sending a raw USCIS PDF right after a client signs sets the wrong tone. They get confused, stall for weeks, and question your firm's process.\n\nClean, branded web forms project authority from day one.\n\nTry the live demo at mupler.com",
       "tweet_id": "2094516543120122179"
+    },
+    {
+      "date": "2026-09-02 17:54 UTC",
+      "topic": "no-tech-skills",
+      "format": "observation",
+      "image": "no-tech-skills.png",
+      "text": "If a tool requires a 45-minute onboarding call just to send an I-130 intake, it was built for enterprise, not a busy firm.\n\nYou should be able to pick a form and send a link in two minutes. No setup wizard, no coding, no mandatory demo.",
+      "tweet_id": "2095208634233893165"
     }
   ]
 }
