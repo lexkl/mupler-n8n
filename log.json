@@ -64,6 +64,14 @@
       "image": "no-tech-skills.png",
       "text": "If a tool requires a 45-minute onboarding call just to send an I-130 intake, it was built for enterprise, not a busy firm.\n\nYou should be able to pick a form and send a link in two minutes. No setup wizard, no coding, no mandatory demo.",
       "tweet_id": "2095208634233893165"
+    },
+    {
+      "date": "2026-09-04 17:36 UTC",
+      "topic": "mobile-intake",
+      "format": "question",
+      "image": "mobile-intake.png",
+      "text": "Have you noticed how many clients open intake links on their phones?\n\nFilling a raw I-130 or I-864 PDF on a small screen leads to pinched text, skipped fields, and stalled cases. Simple browser web forms work on any device so clients finish intake on the first try.",
+      "tweet_id": "2095928935317930012"
     }
   ]
 }
