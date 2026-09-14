@@ -72,6 +72,14 @@
       "image": "mobile-intake.png",
       "text": "Have you noticed how many clients open intake links on their phones?\n\nFilling a raw I-130 or I-864 PDF on a small screen leads to pinched text, skipped fields, and stalled cases. Simple browser web forms work on any device so clients finish intake on the first try.",
       "tweet_id": "2095928935317930012"
+    },
+    {
+      "date": "2026-09-14 19:21 UTC",
+      "topic": "branding",
+      "format": "mini_story",
+      "image": "branding.png",
+      "text": "A client signs a retainer, opens their inbox, and finds a raw government file for their I-130. It looks like something they could have downloaded on their own. Branded web forms instantly tell the client they hired an established practice.",
+      "tweet_id": "2099579216748511441"
     }
   ]
 }
