@@ -80,6 +80,14 @@
       "image": "branding.png",
       "text": "A client signs a retainer, opens their inbox, and finds a raw government file for their I-130. It looks like something they could have downloaded on their own. Branded web forms instantly tell the client they hired an established practice.",
       "tweet_id": "2099579216748511441"
+    },
+    {
+      "date": "2026-09-16 18:11 UTC",
+      "topic": "autosave",
+      "format": "contrast",
+      "image": "autosave.png",
+      "text": "Before: A client starts an I-130A on their phone at 11 PM, loses progress on a static form, and abandons it.\n\nAfter: Autosave preserves every field so they finish in pieces, on their own time.\n\nTry the live demo at mupler.com",
+      "tweet_id": "2100286449111515171"
     }
   ]
 }
