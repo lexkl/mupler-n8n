@@ -96,6 +96,14 @@
       "image": "forms-updated.png",
       "text": "A quiet USCIS edition update can trigger a rejection notice on an I-130 or I-864 overnight.\n\nAudit your firm's saved intake PDFs every Monday morning, or use browser forms that update automatically.\n\nFree 2-week trial at mupler.com",
       "tweet_id": "2101003509508243962"
+    },
+    {
+      "date": "2026-09-28 20:33 UTC",
+      "topic": "form-reuse",
+      "format": "fact",
+      "image": "form-reuse.png",
+      "text": "A standard family-based case requires collecting over 100 identical biographical fields across the I-130, I-130A, and I-864.\n\nBuilding and emailing that same intake packet from scratch for every new client wastes hours of unbillable admin work.",
+      "tweet_id": "2104670741706805294"
     }
   ]
 }
