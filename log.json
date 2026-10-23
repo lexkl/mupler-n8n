@@ -104,6 +104,14 @@
       "image": "form-reuse.png",
       "text": "A standard family-based case requires collecting over 100 identical biographical fields across the I-130, I-130A, and I-864.\n\nBuilding and emailing that same intake packet from scratch for every new client wastes hours of unbillable admin work.",
       "tweet_id": "2104670741706805294"
+    },
+    {
+      "date": "2026-10-23 18:20 UTC",
+      "topic": "compliance",
+      "format": "benefit",
+      "image": "compliance.png",
+      "text": "Collecting tax returns and SSNs for an I-864 no longer means digging through unencrypted email threads. Sensitive data goes straight into encrypted browser forms built around ABA, CCPA, and GLBA requirements.\n\nFree 2-week trial at mupler.com",
+      "tweet_id": "2113697001158132091"
     }
   ]
 }
