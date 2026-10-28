@@ -112,6 +112,14 @@
       "image": "compliance.png",
       "text": "Collecting tax returns and SSNs for an I-864 no longer means digging through unencrypted email threads. Sensitive data goes straight into encrypted browser forms built around ABA, CCPA, and GLBA requirements.\n\nFree 2-week trial at mupler.com",
       "tweet_id": "2113697001158132091"
+    },
+    {
+      "date": "2026-10-28 19:33 UTC",
+      "topic": "typos",
+      "format": "mini_story",
+      "image": "typos.png",
+      "text": "A paralegal copies an A-number into an I-130, then retypes it into the I-130A and I-864. Swapping two digits is easy when typing identical data three times. Single-entry web intake populates every PDF automatically.\n\nSee it at mupler.com",
+      "tweet_id": "2115527303631602110"
     }
   ]
 }
