@@ -120,6 +120,14 @@
       "image": "typos.png",
       "text": "A paralegal copies an A-number into an I-130, then retypes it into the I-130A and I-864. Swapping two digits is easy when typing identical data three times. Single-entry web intake populates every PDF automatically.\n\nSee it at mupler.com",
       "tweet_id": "2115527303631602110"
+    },
+    {
+      "date": "2026-10-30 19:20 UTC",
+      "topic": "small-firm-stack",
+      "format": "pain_point",
+      "image": "small-firm-stack.png",
+      "text": "Running a small practice shouldn't require four different software tools just to get I-130 and I-864 intake completed.\n\nA lean 2026 stack uses simple web forms that map straight to USCIS PDFs.\n\nTry the live demo at mupler.com",
+      "tweet_id": "2116248918703083562"
     }
   ]
 }
