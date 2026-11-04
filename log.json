@@ -128,6 +128,14 @@
       "image": "small-firm-stack.png",
       "text": "Running a small practice shouldn't require four different software tools just to get I-130 and I-864 intake completed.\n\nA lean 2026 stack uses simple web forms that map straight to USCIS PDFs.\n\nTry the live demo at mupler.com",
       "tweet_id": "2116248918703083562"
+    },
+    {
+      "date": "2026-11-04 20:49 UTC",
+      "topic": "conditional-logic",
+      "format": "observation",
+      "image": "conditional-logic.png",
+      "text": "Handing a client a 12-page I-130 PDF means forcing them through questions that do not apply to them.\nSmart forms hide irrelevant fields so clients fill out only what matters, giving you cleaner intake data.\n\nSee it at mupler.com",
+      "tweet_id": "2118083180880085137"
     }
   ]
 }
