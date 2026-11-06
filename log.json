@@ -136,6 +136,14 @@
       "image": "conditional-logic.png",
       "text": "Handing a client a 12-page I-130 PDF means forcing them through questions that do not apply to them.\nSmart forms hide irrelevant fields so clients fill out only what matters, giving you cleaner intake data.\n\nSee it at mupler.com",
       "tweet_id": "2118083180880085137"
+    },
+    {
+      "date": "2026-11-06 20:26 UTC",
+      "topic": "immigration-only",
+      "format": "question",
+      "image": "immigration-only.png",
+      "text": "Have you ever spent hours wrestling a generic form builder to collect five years of address history for an I-130A?\n\nGeneric tools were not made for USCIS packets. Mupler is built exclusively for immigration attorneys.\n\nSee it at mupler.com",
+      "tweet_id": "2118802339285135552"
     }
   ]
 }
