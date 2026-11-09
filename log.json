@@ -144,6 +144,14 @@
       "image": "immigration-only.png",
       "text": "Have you ever spent hours wrestling a generic form builder to collect five years of address history for an I-130A?\n\nGeneric tools were not made for USCIS packets. Mupler is built exclusively for immigration attorneys.\n\nSee it at mupler.com",
       "tweet_id": "2118802339285135552"
+    },
+    {
+      "date": "2026-11-09 23:25 UTC",
+      "topic": "i130a-errors",
+      "format": "advice",
+      "image": "i130a-errors.png",
+      "text": "Clients frequently leave gaps in 5-year address and employment histories on Form I-130A. Ask them to verify that the start month of each entry matches the end month of the previous one before submitting.\n\nTry the live demo at mupler.com",
+      "tweet_id": "2119934532409282929"
     }
   ]
 }
