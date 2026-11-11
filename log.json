@@ -152,6 +152,14 @@
       "image": "i130a-errors.png",
       "text": "Clients frequently leave gaps in 5-year address and employment histories on Form I-130A. Ask them to verify that the start month of each entry matches the end month of the previous one before submitting.\n\nTry the live demo at mupler.com",
       "tweet_id": "2119934532409282929"
+    },
+    {
+      "date": "2026-11-11 21:24 UTC",
+      "topic": "pdf-export",
+      "format": "contrast",
+      "image": "pdf-export.png",
+      "text": "The old way: Copying client answers line by line into Adobe Acrobat to generate an I-130 packet, fixing margins and alignment.\n\nThe new way: Clean web intake exports straight to print-ready USCIS PDFs in one click.\n\nTry the live demo at mupler.com",
+      "tweet_id": "2120628792297484375"
     }
   ]
 }
