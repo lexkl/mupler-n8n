@@ -184,6 +184,14 @@
       "image": "i130-email-chaos.png",
       "text": "Imagine I-130 intake without a 15-email thread clarifying missing dates or prior marriages.\n\nClients fill out one guided web form that validates entries as they go, handing you clean data ready for print.\n\nFree 2-week trial at mupler.com",
       "tweet_id": "2123896290966683754"
+    },
+    {
+      "date": "2026-11-24 01:40 UTC",
+      "topic": "pdf-vs-webform",
+      "format": "mini_story",
+      "image": "pdf-vs-webform.png",
+      "text": "You email a client a raw I-864 PDF to complete. A week later, they return a blurry phone scan of a printed page covered in question marks. Simple web forms replace raw PDFs with guided intake.\n\nTry the live demo at mupler.com",
+      "tweet_id": "2125041852718133360"
     }
   ]
 }
