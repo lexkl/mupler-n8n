@@ -192,6 +192,14 @@
       "image": "pdf-vs-webform.png",
       "text": "You email a client a raw I-864 PDF to complete. A week later, they return a blurry phone scan of a printed page covered in question marks. Simple web forms replace raw PDFs with guided intake.\n\nTry the live demo at mupler.com",
       "tweet_id": "2125041852718133360"
+    },
+    {
+      "date": "2026-11-27 22:41 UTC",
+      "topic": "solo-attorney",
+      "format": "pain_point",
+      "image": "solo-attorney.png",
+      "text": "When you practice solo, every missing answer on an I-864 means writing the follow-up email yourself.\n\nIntake admin eats your billable hours. Web forms capture complete data and auto-generate print-ready USCIS PDFs.\n\nFree 2-week trial at mupler.com",
+      "tweet_id": "2126446334916055046"
     }
   ]
 }
